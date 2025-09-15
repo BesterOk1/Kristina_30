@@ -262,35 +262,41 @@
       font-weight: 600;
     }
 
+    /* Адаптивный таймер */
     .countdown {
       display: flex;
       justify-content: center;
-      gap: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
       margin: 50px 0;
       font-family: 'Cormorant Garamond', serif;
     }
 
     .countdown-item {
       background: rgba(10,10,10,0.7);
-      padding: 20px 10px;
+      padding: 15px 10px;
       border-radius: 12px;
-      min-width: 90px;
+      min-width: 70px;
       border: 1px solid rgba(192, 192, 192, 0.3);
       box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 15px rgba(212, 175, 55, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .countdown-number {
-      font-size: 2.8rem;
+      font-size: 2.2rem;
       font-weight: 700;
       color: #D4AF37;
       text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+      line-height: 1;
     }
 
     .countdown-label {
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       color: #C0C0C0;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
       margin-top: 5px;
     }
 
@@ -336,6 +342,34 @@
       box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
     }
 
+    /* Кнопка календаря */
+    .calendar-section {
+      margin: 40px 0;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards 2.2s;
+    }
+
+    .btn-calendar {
+      background: linear-gradient(90deg, #C0C0C0, #D4AF37);
+      color: #000;
+      font-weight: 600;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      box-shadow: 0 5px 20px rgba(192, 192, 192, 0.3);
+      display: inline-block;
+    }
+
+    .btn-calendar:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+    }
+
     .rsvp-section {
       margin: 50px 0;
       opacity: 0;
@@ -369,29 +403,25 @@
       box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6);
     }
 
-    /* Audio Player + Fake Visualizer */
+    /* Audio Player — статичный */
+    .audio-player-container {
+      margin: 60px auto 40px;
+      max-width: 600px;
+      text-align: center;
+    }
+
     .audio-player {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
       background: rgba(15,15,15,0.8);
       backdrop-filter: blur(10px);
       border: 1px solid #D4AF37;
       border-radius: 15px;
       padding: 15px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 15px;
-      z-index: 1000;
       box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .audio-player.active {
-      opacity: 1;
-      transform: translateY(0);
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .play-btn {
@@ -466,6 +496,75 @@
       100% { height: 35px; }
     }
 
+    /* Анимация пробки — новая! */
+    .cork-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .cork {
+      position: absolute;
+      left: 50%;
+      top: 70%;
+      transform: translateX(-50%) translateY(0);
+      width: 30px;
+      height: 60px;
+      background: #d2a679;
+      border-radius: 5px 5px 0 0;
+      z-index: 2;
+      animation: fly-up 1.5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+    }
+
+    .cork::before {
+      content: "";
+      position: absolute;
+      top: -15px;
+      left: 5px;
+      width: 20px;
+      height: 25px;
+      background: #d2a679;
+      border-radius: 50% 50% 5px 5px;
+    }
+
+    .smoke {
+      position: absolute;
+      left: 50%;
+      top: 70%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .smoke span {
+      position: absolute;
+      display: block;
+      width: 30px;
+      height: 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      animation: smoke-up 2s infinite;
+    }
+
+    .smoke span:nth-child(1) { animation-delay: 0.1s; left: -20px; }
+    .smoke span:nth-child(2) { animation-delay: 0.2s; left: 0; }
+    .smoke span:nth-child(3) { animation-delay: 0.3s; left: 20px; }
+
+    @keyframes fly-up {
+      0% { transform: translateX(-50%) translateY(0); }
+      100% { transform: translateX(-50%) translateY(-150vh); }
+    }
+
+    @keyframes smoke-up {
+      0% { transform: translateX(0) translateY(0); opacity: 0.8; }
+      100% { transform: translateX(10px) translateY(-100px); opacity: 0; }
+    }
+
     .dress-code {
       font-size: 1rem;
       color: #C0C0C0;
@@ -505,24 +604,37 @@
 
     @media (max-width: 768px) {
       .start-btn { width: 180px; height: 180px; font-size: 1.5rem; }
-      h1 { font-size: 3.2rem; }
+      h1 { font-size: 3.2rem; letter-spacing: 3px; }
       .subtitle { font-size: 1.4rem; }
+      .info-box { padding: 25px; }
       .guests-section { padding: 25px; }
       .guests-grid { gap: 15px; }
       .guests-item { padding: 15px; }
-      .audio-player {
-        flex-direction: column;
-        padding: 10px;
-      }
-      .visualizer {
-        margin-left: 0;
-        margin-top: 10px;
-      }
+      .countdown { gap: 10px; }
+      .countdown-item { min-width: 60px; padding: 12px 8px; }
+      .countdown-number { font-size: 1.8rem; }
+      .countdown-label { font-size: 0.7rem; }
+      .map-container { height: 300px; }
+      .rsvp-text { font-size: 1.3rem; }
+      .btn-gold, .btn-calendar { padding: 15px 30px; font-size: 1rem; }
+      .route-btn { font-size: 0.9rem; padding: 10px 20px; }
+      .audio-player { padding: 10px; gap: 10px; }
       .volume-slider { width: 60px; }
+      @media (max-width: 500px) { .visualizer { display: none; } }
     }
   </style>
 </head>
 <body>
+  <!-- Анимация пробки -->
+  <div class="cork-container" id="cork-container">
+    <div class="cork"></div>
+    <div class="smoke">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
   <!-- Стартовый экран -->
   <div class="start-screen" id="start-screen">
     <button class="start-btn" id="start-btn">
@@ -530,7 +642,7 @@
     </button>
   </div>
 
-  <!-- Основной контент (изначально скрыт) -->
+  <!-- Основной контент -->
   <div class="main-content" id="main-content">
     <div class="container">
       <h1>КРИСТИНЕ</h1>
@@ -575,7 +687,7 @@
         </div>
       </div>
 
-      <!-- Countdown -->
+      <!-- Таймер -->
       <div class="countdown" id="countdown">
         <div class="countdown-item">
           <div class="countdown-number" id="days">00</div>
@@ -595,10 +707,17 @@
         </div>
       </div>
 
-      <!-- Yandex Map -->
+      <!-- Карта -->
       <div class="map-container">
         <div id="yandex-map"></div>
         <button class="route-btn" id="route-btn">Как добраться? 🚗</button>
+      </div>
+
+      <!-- Кнопка календаря -->
+      <div class="calendar-section">
+        <button class="btn-calendar" id="add-to-calendar">
+          <i class="fas fa-calendar-plus"></i> Добавить в календарь
+        </button>
       </div>
 
       <div class="rsvp-section">
@@ -607,34 +726,33 @@
       </div>
 
       <p class="dress-code">Dress code: <span>То, в чем вам самим будет удобно</span></p>
+
+      <!-- Плеер -->
+      <div class="audio-player-container">
+        <div class="audio-player" id="audio-player">
+          <div class="play-btn" id="play-btn">
+            <i class="fas fa-pause"></i>
+          </div>
+          <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.01" value="0.7">
+          <div class="visualizer">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Audio Player + Fake Visualizer -->
-  <div class="audio-player" id="audio-player">
-    <div class="play-btn" id="play-btn">
-      <i class="fas fa-pause"></i>
-    </div>
-    <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.01" value="0.7">
-    <div class="visualizer">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-    </div>
-  </div>
-
-  <!-- Audio Element -->
+  <!-- Аудио -->
   <audio id="bg-music">
     <source src="https://track.pinkamuz.pro/download/33313731b1b43432338f373135b334303630370500/f222be7686d1ac5034b9a733ae50fcf3/VaporVice%2C%20REMEMBXRED%20-%20LOS%20VOLTAJE%20ULTRAFUNK.mp3" type="audio/mpeg">
-    Ваш браузер не поддерживает аудио.
   </audio>
-
-  <!-- Звук пробки -->
   <audio id="pop-sound">
     <source src="https://www.soundjay.com/misc/sounds/champagne-bottle-pop-3.mp3" type="audio/mpeg">
   </audio>
@@ -644,49 +762,79 @@
     const startScreen = document.getElementById('start-screen');
     const startBtn = document.getElementById('start-btn');
     const mainContent = document.getElementById('main-content');
-    const audioPlayer = document.getElementById('audio-player');
+    const corkContainer = document.getElementById('cork-container');
     const bgMusic = document.getElementById('bg-music');
     const popSound = document.getElementById('pop-sound');
     const playBtn = document.getElementById('play-btn');
     const volumeSlider = document.getElementById('volume-slider');
     const bars = document.querySelectorAll('.bar');
+    const calendarBtn = document.getElementById('add-to-calendar');
 
     // При клике на стартовую кнопку
     startBtn.addEventListener('click', () => {
-      // Воспроизводим звук пробки
-      popSound.play().catch(e => console.log("Звук пробки не воспроизведён"));
+      // Показываем анимацию пробки
+      corkContainer.style.opacity = '1';
+      popSound.play().catch(e => console.log("Звук не воспроизведён"));
 
-      // Прячем стартовый экран
-      startScreen.style.opacity = '0';
-      startScreen.style.pointerEvents = 'none';
+      // Через 1.5 сек — прячем стартовый экран
       setTimeout(() => {
-        startScreen.style.display = 'none';
-      }, 500);
+        startScreen.style.opacity = '0';
+        startScreen.style.pointerEvents = 'none';
+        setTimeout(() => {
+          startScreen.style.display = 'none';
+          mainContent.classList.add('active');
+        }, 500);
 
-      // Показываем основной контент
-      mainContent.classList.add('active');
-      setTimeout(() => {
-        audioPlayer.classList.add('active');
-      }, 1000);
+        // Запускаем музыку
+        bgMusic.volume = volumeSlider.value;
+        bgMusic.play().catch(e => {
+          alert("Нажмите на кнопку паузы, чтобы включить музыку.");
+        });
 
-      // Запускаем музыку
-      bgMusic.volume = volumeSlider.value;
-      bgMusic.play().catch(e => {
-        alert("Нажмите на кнопку паузы/воспроизведения, чтобы включить музыку.");
-      });
-
-      // Запускаем декоративный эквалайзер
-      setInterval(() => {
-        if (!bgMusic.paused) {
-          bars.forEach(bar => {
-            const rand = Math.random() * 30 + 5;
-            bar.style.height = rand + 'px';
-          });
-        }
-      }, 300);
+        // Запускаем эквалайзер
+        setInterval(() => {
+          if (!bgMusic.paused) {
+            bars.forEach(bar => {
+              const rand = Math.random() * 30 + 5;
+              bar.style.height = rand + 'px';
+            });
+          }
+        }, 300);
+      }, 1500);
     });
 
-    // Инициализация Яндекс.Карты
+    // Календарь
+    calendarBtn.addEventListener('click', () => {
+      const eventTitle = encodeURIComponent("День рождения Кристины — 30 лет!");
+      const eventDate = "20251018T190000";
+      const eventEnd = "20251019T020000";
+      const location = encodeURIComponent("Party Lounge, Уфа, ул. Менделеева, 170");
+      const description = encodeURIComponent("Караоке, танцы, еда, напитки, приятная компания");
+
+      // Google Calendar
+      const gcalUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=${eventDate}/${eventEnd}&details=${description}&location=${location}`;
+
+      // Создаём .ics файл
+      const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+URL:${document.URL}
+DTSTART:${eventDate}
+DTEND:${eventEnd}
+SUMMARY:${decodeURIComponent(eventTitle)}
+DESCRIPTION:${decodeURIComponent(description)}
+LOCATION:${decodeURIComponent(location)}
+END:VEVENT
+END:VCALENDAR`;
+
+      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'kristina-30-birthday.ics';
+      link.click();
+    });
+
+    // Яндекс.Карта
     ymaps.ready(init);
     function init() {
       const map = new ymaps.Map("yandex-map", {
@@ -757,9 +905,11 @@
     setInterval(createSparkles, 7000);
     createSparkles();
 
-    // Кнопка RSVP — скролл вверх
+    // ❗ УБРАЛ ЛЮБОЙ АВТОСКРОЛЛ — больше не скроллит!
+    // Кнопка RSVP — просто визуальная, без скролла
     document.querySelector('.btn-gold').addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Ничего не делаем — просто показываем, что кнопка "оживлена"
+      playBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
 
     // Плеер
@@ -778,5 +928,4 @@
     });
   </script>
 </body>
-
 </html>
