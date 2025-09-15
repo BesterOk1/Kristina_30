@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>🖤 Кристине 30 | Invite</title>
+  <title>🖤 Кристине 30 | Fashion Invite</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
   <style>
@@ -22,7 +22,7 @@
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
-      touch-action: pan-y; /* Убирает неожиданные жесты */
+      touch-action: pan-y;
     }
 
     body::before {
@@ -268,7 +268,7 @@
       text-align: center;
     }
 
-    /* Таймер — адаптивный */
+    /* Таймер */
     .countdown {
       display: flex;
       justify-content: center;
@@ -349,7 +349,7 @@
       box-shadow: 0 6px 25px rgba(212, 175, 55, 0.6);
     }
 
-    /* Кнопка календаря — ИСПРАВЛЕНА */
+    /* Кнопка календаря — ИСПРАВЛЕНА ДЛЯ IPHONE */
     .calendar-section {
       margin: 50px 0 30px;
       opacity: 0;
@@ -414,11 +414,22 @@
       text-transform: uppercase;
       letter-spacing: 2px;
       box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+      position: relative;
+      overflow: hidden;
     }
 
     .btn-gold:hover {
       transform: translateY(-5px) scale(1.05);
       box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6);
+    }
+
+    /* Конфетти */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      z-index: 999;
     }
 
     /* Audio Player */
@@ -621,186 +632,50 @@
       100% { transform: translateY(-10vh) translateX(calc(100px * (var(--dir, 1)))) rotate(360deg); opacity: 0; }
     }
 
-    /* МОБИЛЬНАЯ АДАПТАЦИЯ — ключевые исправления */
+    /* МОБИЛЬНАЯ АДАПТАЦИЯ */
     @media (max-width: 768px) {
-      body { 
-        -webkit-text-size-adjust: 100%;
-        touch-action: pan-y;
-      }
+      body { -webkit-text-size-adjust: 100%; }
 
-      .start-btn { 
-        width: 190px; 
-        height: 190px; 
-        font-size: 1.6rem; 
-      }
-
-      h1 { 
-        font-size: 3.5rem; 
-        letter-spacing: 4px;
-        line-height: 1.1;
-      }
-
-      .subtitle { 
-        font-size: 1.5rem; 
-        margin-bottom: 30px;
-      }
-
-      .info-box { 
-        padding: 30px 20px;
-        margin: 30px 0;
-      }
-
-      .info-item {
-        margin: 20px 0;
-      }
-
-      .info-label {
-        font-size: 1rem;
-      }
-
-      .info-value {
-        font-size: 1.4rem;
-      }
-
-      .guests-section { 
-        padding: 30px 20px; 
-      }
-
-      .guests-section h2 { 
-        font-size: 1.8rem; 
-        margin-bottom: 25px;
-      }
-
-      .guests-grid { 
-        gap: 20px; 
-      }
-
-      .guests-item { 
-        padding: 20px 10px; 
-      }
-
-      .guests-title { 
-        font-size: 1.2rem; 
-      }
-
-      .countdown { 
-        gap: 15px; 
-        margin: 50px 0 30px;
-      }
-
-      .countdown-item { 
-        min-width: 75px; 
-        padding: 18px 8px; 
-      }
-
-      .countdown-number { 
-        font-size: 2rem; 
-      }
-
-      .countdown-label { 
-        font-size: 0.75rem; 
-        margin-top: 6px;
-      }
-
-      .map-container { 
-        height: 300px; 
-        margin: 40px auto;
-      }
-
-      .route-btn { 
-        padding: 12px 25px; 
-        font-size: 1rem;
-      }
-
-      .calendar-btn-group {
-        gap: 12px;
-      }
-
-      .btn-calendar {
-        padding: 14px 20px;
-        font-size: 1rem;
-      }
-
-      .rsvp-text { 
-        font-size: 1.4rem; 
-      }
-
-      .btn-gold { 
-        padding: 16px 40px; 
-        font-size: 1.1rem; 
-      }
-
-      .audio-player { 
-        padding: 15px;
-        gap: 15px;
-      }
-
-      .play-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-      }
-
-      .volume-slider {
-        width: 80px;
-        height: 5px;
-      }
-
-      .volume-slider::-webkit-slider-thumb {
-        width: 15px;
-        height: 15px;
-      }
-
-      .visualizer {
-        height: 35px;
-      }
-
-      .bar {
-        width: 5px;
-      }
-
-      @keyframes pulse {
-        0% { height: 5px; }
-        100% { height: 30px; }
-      }
+      .start-btn { width: 190px; height: 190px; font-size: 1.6rem; }
+      h1 { font-size: 3.5rem; letter-spacing: 4px; }
+      .subtitle { font-size: 1.5rem; margin-bottom: 30px; }
+      .info-box { padding: 30px 20px; margin: 30px 0; }
+      .info-item { margin: 20px 0; }
+      .info-label { font-size: 1rem; }
+      .info-value { font-size: 1.4rem; }
+      .guests-section { padding: 30px 20px; }
+      .guests-section h2 { font-size: 1.8rem; margin-bottom: 25px; }
+      .guests-grid { gap: 20px; }
+      .guests-item { padding: 20px 10px; }
+      .guests-title { font-size: 1.2rem; }
+      .countdown { gap: 15px; margin: 50px 0 30px; }
+      .countdown-item { min-width: 75px; padding: 18px 8px; }
+      .countdown-number { font-size: 2rem; }
+      .countdown-label { font-size: 0.75rem; margin-top: 6px; }
+      .map-container { height: 300px; margin: 40px auto; }
+      .route-btn { padding: 12px 25px; font-size: 1rem; }
+      .calendar-btn-group { gap: 12px; }
+      .btn-calendar { padding: 14px 20px; font-size: 1rem; }
+      .rsvp-text { font-size: 1.4rem; }
+      .btn-gold { padding: 16px 40px; font-size: 1.1rem; }
+      .audio-player { padding: 15px; gap: 15px; }
+      .play-btn { width: 40px; height: 40px; font-size: 1rem; }
+      .volume-slider { width: 80px; height: 5px; }
+      .volume-slider::-webkit-slider-thumb { width: 15px; height: 15px; }
+      .visualizer { height: 35px; }
+      .bar { width: 5px; }
+      @keyframes pulse { 0% { height: 5px; } 100% { height: 30px; } }
     }
 
     @media (max-width: 480px) {
-      .start-btn { 
-        width: 170px; 
-        height: 170px; 
-        font-size: 1.4rem; 
-      }
-
-      h1 { 
-        font-size: 2.8rem; 
-      }
-
-      .info-box {
-        padding: 25px 15px;
-      }
-
-      .info-value {
-        font-size: 1.3rem;
-      }
-
-      .countdown-item {
-        min-width: 70px;
-        padding: 15px 5px;
-      }
-
-      .countdown-number {
-        font-size: 1.8rem;
-      }
-
-      .map-container {
-        height: 280px;
-      }
-
-      .dress-code {
-        font-size: 1rem;
-        margin: 40px 0 20px;
-      }
+      .start-btn { width: 170px; height: 170px; font-size: 1.4rem; }
+      h1 { font-size: 2.8rem; }
+      .info-box { padding: 25px 15px; }
+      .info-value { font-size: 1.3rem; }
+      .countdown-item { min-width: 70px; padding: 15px 5px; }
+      .countdown-number { font-size: 1.8rem; }
+      .map-container { height: 280px; }
+      .dress-code { font-size: 1rem; margin: 40px 0 20px; }
     }
   </style>
 </head>
@@ -825,7 +700,7 @@
   <!-- Основной контент -->
   <div class="main-content" id="main-content">
     <div class="container">
-      <h1>КРИСТИНЕ</h1> <!-- ✅ Исправлено! -->
+      <h1>КРИСТИНЕ</h1>
       <p class="subtitle">30 лет великолепия! ✨</p>
       <div class="divider"></div>
 
@@ -895,7 +770,7 @@
         </button>
       </div>
 
-      <!-- Кнопка календаря — ИСПРАВЛЕНА -->
+      <!-- Кнопка календаря — ИСПРАВЛЕНА ДЛЯ IPHONE -->
       <div class="calendar-section">
         <div class="calendar-btn-group">
           <button class="btn-calendar" id="google-cal">
@@ -909,7 +784,7 @@
 
       <div class="rsvp-section">
         <p class="rsvp-text">Ваше присутствие — лучший подарок</p>
-        <button class="btn-gold">Мы ждём вас ✨</button>
+        <button class="btn-gold" id="confetti-btn">Мы ждём вас ✨</button>
       </div>
 
       <p class="dress-code">Dress code: <span>То, в чем вам самим будет удобно</span></p>
@@ -957,50 +832,10 @@
     const bars = document.querySelectorAll('.bar');
     const googleCalBtn = document.getElementById('google-cal');
     const downloadIcsBtn = document.getElementById('download-ics');
+    const confettiBtn = document.getElementById('confetti-btn');
 
-    // При клике на стартовую кнопку
-    startBtn.addEventListener('click', () => {
-      corkContainer.style.opacity = '1';
-      popSound.play().catch(e => console.log("Звук не воспроизведён"));
-
-      setTimeout(() => {
-        startScreen.style.opacity = '0';
-        startScreen.style.pointerEvents = 'none';
-        setTimeout(() => {
-          startScreen.style.display = 'none';
-          mainContent.classList.add('active');
-        }, 500);
-
-        bgMusic.volume = volumeSlider.value;
-        bgMusic.play().catch(e => {
-          // Ничего не показываем — пользователь сам включит через кнопку плеера
-        });
-
-        setInterval(() => {
-          if (!bgMusic.paused) {
-            bars.forEach(bar => {
-              const rand = Math.random() * 30 + 5;
-              bar.style.height = rand + 'px';
-            });
-          }
-        }, 300);
-      }, 1500);
-    });
-
-    // ✅ Кнопка Google Calendar — открывает в новой вкладке
-    googleCalBtn.addEventListener('click', () => {
-      const eventTitle = encodeURIComponent("День рождения Кристины — 30 лет!");
-      const eventDate = "20251018T190000";
-      const eventEnd = "20251019T020000";
-      const location = encodeURIComponent("Party Lounge, Уфа, ул. Менделеева, 170");
-      const description = encodeURIComponent("Караоке, танцы, еда, напитки, приятная компания");
-
-      const gcalUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=${eventDate}/${eventEnd}&details=${description}&location=${location}`;
-      window.open(gcalUrl, '_blank');
-    });
-
-    // ✅ Кнопка скачивания .ics — для Apple, Outlook, Яндекс.Календаря
-    downloadIcsBtn.addEventListener('click', () => {
+    // ✅ Исправленное скачивание .ics — работает на iPhone/Safari
+    function downloadICS() {
       const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//hacksw/handcal//NONSGML v1.0//EN
@@ -1016,12 +851,109 @@ END:VEVENT
 END:VCALENDAR`;
 
       const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
+      link.href = url;
       link.download = 'kristina-30-birthday.ics';
+
+      // Для Safari на iOS — добавляем в DOM и кликаем
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
+      // Очистка URL
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    // При клике на стартовую кнопку
+    startBtn.addEventListener('click', () => {
+      corkContainer.style.opacity = '1';
+      popSound.play().catch(e => console.log("Звук не воспроизведён"));
+
+      setTimeout(() => {
+        startScreen.style.opacity = '0';
+        startScreen.style.pointerEvents = 'none';
+        setTimeout(() => {
+          startScreen.style.display = 'none';
+          mainContent.classList.add('active');
+        }, 500);
+
+        bgMusic.volume = volumeSlider.value;
+        bgMusic.play().catch(e => {});
+
+        setInterval(() => {
+          if (!bgMusic.paused) {
+            bars.forEach(bar => {
+              const rand = Math.random() * 30 + 5;
+              bar.style.height = rand + 'px';
+            });
+          }
+        }, 300);
+      }, 1500);
+    });
+
+    // ✅ Кнопки календаря
+    googleCalBtn.addEventListener('click', () => {
+      const eventTitle = encodeURIComponent("День рождения Кристины — 30 лет!");
+      const eventDate = "20251018T190000";
+      const eventEnd = "20251019T020000";
+      const location = encodeURIComponent("Party Lounge, Уфа, ул. Менделеева, 170");
+      const description = encodeURIComponent("Караоке, танцы, еда, напитки, приятная компания");
+      const gcalUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=${eventDate}/${eventEnd}&details=${description}&location=${location}`;
+      window.open(gcalUrl, '_blank');
+    });
+
+    downloadIcsBtn.addEventListener('click', downloadICS);
+
+    // 🎊 Анимация конфетти при клике на "Мы ждём вас"
+    function createConfetti(x, y) {
+      const colors = ['#D4AF37', '#C0C0C0', '#ff6b6b', '#4ecdc4', '#ff9ff3', '#feca57'];
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = x + 'px';
+        confetti.style.top = y + 'px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        document.body.appendChild(confetti);
+
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 5 + Math.random() * 7;
+        const vx = Math.cos(angle) * velocity;
+        const vy = Math.sin(angle) * velocity - 5; // подброс вверх
+
+        let posX = x;
+        let posY = y;
+        let gravity = 0.2;
+        let rotation = 0;
+
+        const animate = () => {
+          posX += vx;
+          posY += vy;
+          vy += gravity;
+          rotation += 2;
+          confetti.style.transform = `rotate(${rotation}deg)`;
+          confetti.style.left = posX + 'px';
+          confetti.style.top = posY + 'px';
+          confetti.style.opacity = parseFloat(confetti.style.opacity || 1) - 0.02;
+
+          if (parseFloat(confetti.style.opacity) > 0) {
+            requestAnimationFrame(animate);
+          } else {
+            confetti.remove();
+          }
+        };
+
+        requestAnimationFrame(animate);
+      }
+    }
+
+    confettiBtn.addEventListener('click', (e) => {
+      const rect = confettiBtn.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      createConfetti(x, y);
     });
 
     // Яндекс.Карта
@@ -1094,11 +1026,6 @@ END:VCALENDAR`;
     }
     setInterval(createSparkles, 7000);
     createSparkles();
-
-    // ❗ НИКАКОГО АВТОСКРОЛЛА — кнопка RSVP просто визуальная
-    document.querySelector('.btn-gold').addEventListener('click', () => {
-      // Ничего не делаем — оставляем как есть
-    });
 
     // Плеер
     playBtn.addEventListener('click', () => {
