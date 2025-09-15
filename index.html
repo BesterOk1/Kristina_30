@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🖤 Кристине 30 | Fashion Invite</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 25% 40%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 60%, rgba(192, 192, 192, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(15,15,15,1) 0%, rgba(0,0,0,1) 100%);
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: 
+        linear-gradient(45deg, transparent 47%, rgba(212, 175, 55, 0.05) 50%, transparent 53%),
+        linear-gradient(-45deg, transparent 47%, rgba(192, 192, 192, 0.03) 50%, transparent 53%);
+      background-size: 50px 50px;
+      z-index: -1;
+      pointer-events: none;
+      animation: rotate 25s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Стартовый экран — только кнопка */
+    .start-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(5px);
+    }
+
+    .start-btn {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #D4AF37, #C0C0C0);
+      color: #000;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+      animation: pulse-btn 2s infinite;
+      border: none;
+      transition: all 0.3s;
+    }
+
+    @keyframes pulse-btn {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(212, 175, 55, 0.5); }
+      50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(212, 175, 55, 0.8); }
+    }
+
+    .start-btn:hover {
+      transform: scale(1.07);
+    }
+
+    /* Основной контент (изначально скрыт) */
+    .main-content {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .main-content.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: all;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      font-weight: 700;
+      letter-spacing: 6px;
+      background: linear-gradient(90deg, #D4AF37, #C0C0C0, #D4AF37);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shine 3s infinite;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    }
+
+    @keyframes shine {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: #D4AF37;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards 0.5s;
+    }
+
+    .divider {
+      width: 120px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #D4AF37, #C0C0C0, #D4AF37, transparent);
+      margin: 20px auto;
+      border-radius: 2px;
+    }
+
+    .info-box {
+      background: rgba(15,15,15,0.8);
+      padding: 35px;
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
+      margin: 30px 0;
+      opacity: 0;
+      animation: slideUp 1s forwards 1s;
+    }
+
+    .info-item {
+      font-size: 1.3rem;
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .info-label {
+      color: #C0C0C0;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .info-value {
+      color: #D4AF37;
+      font-weight: 600;
+      font-size: 1.5rem;
+      position: relative;
+    }
+
+    .info-value::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+    }
+
+    /* Что ждёт гостей */
+    .guests-section {
+      background: rgba(15,15,15,0.8);
+      padding: 40px;
+      border-radius: 20px;
+      margin: 50px 0;
+      border: 1px solid #C0C0C0;
+      box-shadow: 0 0 30px rgba(192, 192, 192, 0.1);
+      opacity: 0;
+      animation: slideUp 1s forwards 1.5s;
+    }
+
+    .guests-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      color: #D4AF37;
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .guests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .guests-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      border-radius: 15px;
+      background: rgba(30,30,30,0.5);
+      transition: all 0.3s;
+    }
+
+    .guests-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .guests-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #D4AF37;
+    }
+
+    .guests-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin: 50px 0;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .countdown-item {
+      background: rgba(10,10,10,0.7);
+      padding: 20px 10px;
+      border-radius: 12px;
+      min-width: 90px;
+      border: 1px solid rgba(192, 192, 192, 0.3);
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 0 15px rgba(212, 175, 55, 0.2);
+    }
+
+    .countdown-number {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #D4AF37;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+
+    .countdown-label {
+      font-size: 0.9rem;
+      color: #C0C0C0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 5px;
+    }
+
+    .map-container {
+      margin: 50px auto;
+      max-width: 850px;
+      height: 380px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid #D4AF37;
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+      position: relative;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards 2s;
+    }
+
+    #yandex-map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .route-btn {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, #D4AF37, #C0C0C0);
+      color: #000;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    }
+
+    .route-btn:hover {
+      transform: translateX(-50%) scale(1.05);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+    }
+
+    .rsvp-section {
+      margin: 50px 0;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards 2.5s;
+    }
+
+    .rsvp-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      color: #C0C0C0;
+      margin-bottom: 25px;
+    }
+
+    .btn-gold {
+      background: linear-gradient(90deg, #D4AF37, #C0C0C0, #D4AF37);
+      color: #000;
+      font-weight: 700;
+      padding: 18px 50px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6);
+    }
+
+    /* Audio Player + Fake Visualizer */
+    .audio-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(15,15,15,0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid #D4AF37;
+      border-radius: 15px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      z-index: 1000;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .audio-player.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .play-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #D4AF37;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .volume-slider {
+      -webkit-appearance: none;
+      width: 80px;
+      height: 5px;
+      border-radius: 5px;
+      background: #333;
+      outline: none;
+      opacity: 0.7;
+      transition: opacity .2s;
+    }
+
+    .volume-slider:hover {
+      opacity: 1;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #D4AF37;
+      cursor: pointer;
+    }
+
+    .visualizer {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 40px;
+      margin-left: 15px;
+    }
+
+    .bar {
+      width: 5px;
+      background: linear-gradient(to top, #D4AF37, #C0C0C0);
+      border-radius: 3px 3px 0 0;
+      height: 10px;
+      animation: pulse 1s infinite alternate;
+    }
+
+    .bar:nth-child(1) { animation-delay: 0.1s; }
+    .bar:nth-child(2) { animation-delay: 0.2s; }
+    .bar:nth-child(3) { animation-delay: 0.3s; }
+    .bar:nth-child(4) { animation-delay: 0.4s; }
+    .bar:nth-child(5) { animation-delay: 0.5s; }
+    .bar:nth-child(6) { animation-delay: 0.6s; }
+    .bar:nth-child(7) { animation-delay: 0.7s; }
+    .bar:nth-child(8) { animation-delay: 0.8s; }
+
+    @keyframes pulse {
+      0% { height: 5px; }
+      100% { height: 35px; }
+    }
+
+    .dress-code {
+      font-size: 1rem;
+      color: #C0C0C0;
+      margin-top: 40px;
+      letter-spacing: 2px;
+      font-style: italic;
+    }
+
+    .dress-code span {
+      color: #D4AF37;
+      font-weight: 600;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(60px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      z-index: 5;
+      animation: sparkle-float 4s linear forwards;
+      opacity: 0;
+    }
+
+    @keyframes sparkle-float {
+      0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-10vh) translateX(calc(100px * (var(--dir, 1)))) rotate(360deg); opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+      .start-btn { width: 180px; height: 180px; font-size: 1.5rem; }
+      h1 { font-size: 3.2rem; }
+      .subtitle { font-size: 1.4rem; }
+      .guests-section { padding: 25px; }
+      .guests-grid { gap: 15px; }
+      .guests-item { padding: 15px; }
+      .audio-player {
+        flex-direction: column;
+        padding: 10px;
+      }
+      .visualizer {
+        margin-left: 0;
+        margin-top: 10px;
+      }
+      .volume-slider { width: 60px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Стартовый экран -->
+  <div class="start-screen" id="start-screen">
+    <button class="start-btn" id="start-btn">
+      Кристине<br>30 лет
+    </button>
+  </div>
+
+  <!-- Основной контент (изначально скрыт) -->
+  <div class="main-content" id="main-content">
+    <div class="container">
+      <h1>КРИСТИНЕ</h1>
+      <p class="subtitle">30 лет великолепия! ✨</p>
+      <div class="divider"></div>
+
+      <div class="info-box">
+        <div class="info-item">
+          <span class="info-label">Время восхитительного вечера —</span>
+          <span class="info-value">18 октября 2025, 19:00</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Адрес роскоши —</span>
+          <span class="info-value">Party Lounge, Уфа, ул. Менделеева, 170</span>
+        </div>
+      </div>
+
+      <!-- Что ждёт гостей -->
+      <div class="guests-section">
+        <h2>✨ Что ждёт вас на вечере?</h2>
+        <div class="guests-grid">
+          <div class="guests-item">
+            <div class="guests-icon"><i class="fas fa-microphone-alt"></i></div>
+            <div class="guests-title">Караоке-баттлы</div>
+          </div>
+          <div class="guests-item">
+            <div class="guests-icon"><i class="fas fa-drum"></i></div>
+            <div class="guests-title">Танцы</div>
+          </div>
+          <div class="guests-item">
+            <div class="guests-icon"><i class="fas fa-glass-cheers"></i></div>
+            <div class="guests-title">Напитки и коктейли</div>
+          </div>
+          <div class="guests-item">
+            <div class="guests-icon"><i class="fas fa-utensils"></i></div>
+            <div class="guests-title">Вкуснейшая еда</div>
+          </div>
+          <div class="guests-item">
+            <div class="guests-icon"><i class="fas fa-laugh-beam"></i></div>
+            <div class="guests-title">Приятная компания</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Countdown -->
+      <div class="countdown" id="countdown">
+        <div class="countdown-item">
+          <div class="countdown-number" id="days">00</div>
+          <div class="countdown-label">Дней</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="hours">00</div>
+          <div class="countdown-label">Часов</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="minutes">00</div>
+          <div class="countdown-label">Минут</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="seconds">00</div>
+          <div class="countdown-label">Секунд</div>
+        </div>
+      </div>
+
+      <!-- Yandex Map -->
+      <div class="map-container">
+        <div id="yandex-map"></div>
+        <button class="route-btn" id="route-btn">Как добраться? 🚗</button>
+      </div>
+
+      <div class="rsvp-section">
+        <p class="rsvp-text">Ваше присутствие — лучший подарок</p>
+        <button class="btn-gold">Мы ждём вас ✨</button>
+      </div>
+
+      <p class="dress-code">Dress code: <span>То, в чем вам самим будет удобно</span></p>
+    </div>
+  </div>
+
+  <!-- Audio Player + Fake Visualizer -->
+  <div class="audio-player" id="audio-player">
+    <div class="play-btn" id="play-btn">
+      <i class="fas fa-pause"></i>
+    </div>
+    <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.01" value="0.7">
+    <div class="visualizer">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+  </div>
+
+  <!-- Audio Element -->
+  <audio id="bg-music">
+    <source src="https://track.pinkamuz.pro/download/33313731b1b43432338f373135b334303630370500/f222be7686d1ac5034b9a733ae50fcf3/VaporVice%2C%20REMEMBXRED%20-%20LOS%20VOLTAJE%20ULTRAFUNK.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
+
+  <!-- Звук пробки -->
+  <audio id="pop-sound">
+    <source src="https://www.soundjay.com/misc/sounds/champagne-bottle-pop-3.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Элементы
+    const startScreen = document.getElementById('start-screen');
+    const startBtn = document.getElementById('start-btn');
+    const mainContent = document.getElementById('main-content');
+    const audioPlayer = document.getElementById('audio-player');
+    const bgMusic = document.getElementById('bg-music');
+    const popSound = document.getElementById('pop-sound');
+    const playBtn = document.getElementById('play-btn');
+    const volumeSlider = document.getElementById('volume-slider');
+    const bars = document.querySelectorAll('.bar');
+
+    // При клике на стартовую кнопку
+    startBtn.addEventListener('click', () => {
+      // Воспроизводим звук пробки
+      popSound.play().catch(e => console.log("Звук пробки не воспроизведён"));
+
+      // Прячем стартовый экран
+      startScreen.style.opacity = '0';
+      startScreen.style.pointerEvents = 'none';
+      setTimeout(() => {
+        startScreen.style.display = 'none';
+      }, 500);
+
+      // Показываем основной контент
+      mainContent.classList.add('active');
+      setTimeout(() => {
+        audioPlayer.classList.add('active');
+      }, 1000);
+
+      // Запускаем музыку
+      bgMusic.volume = volumeSlider.value;
+      bgMusic.play().catch(e => {
+        alert("Нажмите на кнопку паузы/воспроизведения, чтобы включить музыку.");
+      });
+
+      // Запускаем декоративный эквалайзер
+      setInterval(() => {
+        if (!bgMusic.paused) {
+          bars.forEach(bar => {
+            const rand = Math.random() * 30 + 5;
+            bar.style.height = rand + 'px';
+          });
+        }
+      }, 300);
+    });
+
+    // Инициализация Яндекс.Карты
+    ymaps.ready(init);
+    function init() {
+      const map = new ymaps.Map("yandex-map", {
+        center: [54.749910, 56.032087],
+        zoom: 17,
+        controls: ['zoomControl', 'fullscreenControl']
+      });
+
+      const placemark = new ymaps.Placemark([54.749910, 56.032087], {
+        balloonContent: "<strong>Party Lounge</strong><br>ул. Менделеева, 170, Уфа",
+        iconCaption: "Party Lounge"
+      }, {
+        preset: 'islands#goldDotIcon',
+        iconColor: '#D4AF37'
+      });
+
+      map.geoObjects.add(placemark);
+      map.behaviors.disable('scrollZoom');
+
+      document.getElementById('route-btn').addEventListener('click', () => {
+        const url = `https://yandex.ru/maps?rtext=~54.749910,56.032087&rtt=auto`;
+        window.open(url, '_blank');
+      });
+    }
+
+    // Таймер
+    const countdownDate = new Date("Oct 18, 2025 19:00:00").getTime();
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+      if (distance < 0) {
+        clearInterval(timer);
+        document.getElementById('countdown').innerHTML = "<div style='color:#D4AF37; font-size:1.8rem;'>✨ Вечер в разгаре ✨</div>";
+        return;
+      }
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      document.getElementById('days').innerHTML = days.toString().padStart(2, '0');
+      document.getElementById('hours').innerHTML = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
+    }
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+
+    // Sparkles
+    function createSparkles() {
+      const colors = ['#D4AF37', '#C0C0C0', '#FFFFFF'];
+      for (let i = 0; i < 25; i++) {
+        setTimeout(() => {
+          const sparkle = document.createElement('div');
+          sparkle.classList.add('sparkle');
+          sparkle.innerText = '✦';
+          sparkle.style.color = colors[Math.floor(Math.random() * colors.length)];
+          sparkle.style.fontSize = (Math.random() * 20 + 12) + 'px';
+          sparkle.style.left = Math.random() * 100 + 'vw';
+          sparkle.style.top = '100vh';
+          sparkle.style.setProperty('--dir', Math.random() > 0.5 ? '1' : '-1');
+          sparkle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+          sparkle.style.animationDelay = Math.random() * 2 + 's';
+          document.body.appendChild(sparkle);
+          setTimeout(() => sparkle.remove(), 6000);
+        }, i * 250);
+      }
+    }
+    setInterval(createSparkles, 7000);
+    createSparkles();
+
+    // Кнопка RSVP — скролл вверх
+    document.querySelector('.btn-gold').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Плеер
+    playBtn.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      } else {
+        bgMusic.pause();
+        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+      }
+    });
+
+    volumeSlider.addEventListener('input', () => {
+      bgMusic.volume = volumeSlider.value;
+    });
+  </script>
+</body>
+</html>
